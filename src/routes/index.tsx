@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import type React from "react";
 
 const nkhono =
   "https://z-p3-scontent.fmsu3-1.fna.fbcdn.net/v/t39.30808-6/471789425_10162515435158586_8097790017530335910_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Isz66mSNgHcQ7kNvwGAfC2N&_nc_oc=Adq-RTCGQfbEYU13uaMKJAC4Gf5GB38i4zjUWdqUE0VXq3Rn6GxoH0-ylRuj6pTPOgs&_nc_pt=5&_nc_zt=23&_nc_ht=z-p3-scontent.fmsu3-1.fna&_nc_gid=a4VLh8rlQ3CeTTeu_AoCJA&_nc_ss=7b289&oh=00_AQBfDaz2MuhOFzBcBe33_PGTrfXgibz9YU577L4KySuJkQ&oe=6A5C8879";
@@ -90,8 +91,11 @@ function Index() {
         </div>
 
         {/* Phone */}
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center gap-6 lg:items-end">
           <Phone tab={tab} setTab={setTab} />
+          <Phone hideTabs>
+            <UssdScreen />
+          </Phone>
         </div>
       </section>
 
@@ -200,7 +204,17 @@ function Stat({ value, label }: { value: string; label: string }) {
   );
 }
 
-function Phone({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void }) {
+function Phone({
+  tab,
+  setTab,
+  children,
+  hideTabs,
+}: {
+  tab?: TabId;
+  setTab?: (t: TabId) => void;
+  children?: React.ReactNode;
+  hideTabs?: boolean;
+}) {
   return (
     <div className="relative">
       <div className="absolute -inset-8 -z-10 rounded-[3rem] bg-primary/10 blur-3xl" />
@@ -216,32 +230,38 @@ function Phone({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void }) {
           </div>
 
           <div className="h-[520px] overflow-hidden px-5 pt-4">
-            {tab === "home" && <HomeScreen />}
-            {tab === "credit" && <CreditScreen />}
-            {tab === "cover" && <CoverScreen />}
-            {tab === "flow" && <FlowScreen />}
+            {children ?? (
+              <>
+                {tab === "home" && <HomeScreen />}
+                {tab === "credit" && <CreditScreen />}
+                {tab === "cover" && <CoverScreen />}
+                {tab === "flow" && <FlowScreen />}
+              </>
+            )}
           </div>
 
           {/* tab bar */}
-          <nav className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-2xl border border-border bg-secondary/70 px-2 py-2 backdrop-blur">
-            {TABS.map((t) => {
-              const active = tab === t.id;
-              return (
-                <button
-                  key={t.id}
-                  onClick={() => setTab(t.id)}
-                  className={
-                    "flex-1 rounded-xl px-2 py-2 text-[11px] font-semibold transition-colors " +
-                    (active
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground")
-                  }
-                >
-                  {t.label}
-                </button>
-              );
-            })}
-          </nav>
+          {!hideTabs && setTab ? (
+            <nav className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-2xl border border-border bg-secondary/70 px-2 py-2 backdrop-blur">
+              {TABS.map((t) => {
+                const active = tab === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => setTab(t.id)}
+                    className={
+                      "flex-1 rounded-xl px-2 py-2 text-[11px] font-semibold transition-colors " +
+                      (active
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground")
+                    }
+                  >
+                    {t.label}
+                  </button>
+                );
+              })}
+            </nav>
+          ) : null}
         </div>
       </div>
     </div>
@@ -255,6 +275,47 @@ function ScreenHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
         {eyebrow}
       </p>
       <h2 className="mt-1 font-serif text-xl leading-tight">{title}</h2>
+    </div>
+  );
+}
+
+function UssdScreen() {
+  return (
+    <div className="space-y-4">
+      <div className="rounded-3xl border border-border/70 bg-slate-950/95 p-4 text-slate-100">
+        <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-slate-400">
+          <span>Vodacom</span>
+          <span>USSD</span>
+        </div>
+        <div className="mt-3 rounded-2xl bg-slate-900 p-4 text-sm leading-6 text-slate-100">
+          <p className="font-semibold">*123*4#</p>
+          <p className="mt-3 text-[11px] text-slate-400">
+            Welcome to Mohloli. Select the service you need.
+          </p>
+        </div>
+      </div>
+
+      <div className="rounded-3xl border border-border/70 bg-slate-950/95 p-4 text-slate-100">
+        <p className="text-[10px] uppercase tracking-[0.18em] text-slate-400">
+          Select option
+        </p>
+        <ul className="mt-3 space-y-2 text-sm">
+          <li className="rounded-2xl bg-slate-900 px-3 py-3">1. Apply for loan</li>
+          <li className="rounded-2xl bg-slate-900 px-3 py-3">2. Buy crop cover</li>
+          <li className="rounded-2xl bg-slate-900 px-3 py-3">3. Check balance</li>
+          <li className="rounded-2xl bg-slate-900 px-3 py-3">4. Market prices</li>
+        </ul>
+      </div>
+
+      <div className="rounded-3xl border border-border/70 bg-slate-950/95 p-4 text-slate-100">
+        <p className="text-[10px] uppercase tracking-[0.18em] text-slate-400">
+          Next step
+        </p>
+        <p className="mt-2 text-sm leading-6">
+          Dial the code, then choose “2. Buy crop cover” to protect your cabbage
+          seedlings against frost.
+        </p>
+      </div>
     </div>
   );
 }
