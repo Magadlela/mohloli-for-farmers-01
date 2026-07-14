@@ -1,8 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import nkhono from "@/assets/nkhono_farmer.jpg.asset.json";
-import plough from "@/assets/basotho_plough.jpg.asset.json";
-import cabbage from "@/assets/cabbage_field.jpg.asset.json";
+
+const nkhono =
+  "https://z-p3-scontent.fmsu3-1.fna.fbcdn.net/v/t39.30808-6/471789425_10162515435158586_8097790017530335910_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Isz66mSNgHcQ7kNvwGAfC2N&_nc_oc=Adq-RTCGQfbEYU13uaMKJAC4Gf5GB38i4zjUWdqUE0VXq3Rn6GxoH0-ylRuj6pTPOgs&_nc_pt=5&_nc_zt=23&_nc_ht=z-p3-scontent.fmsu3-1.fna&_nc_gid=a4VLh8rlQ3CeTTeu_AoCJA&_nc_ss=7b289&oh=00_AQBfDaz2MuhOFzBcBe33_PGTrfXgibz9YU577L4KySuJkQ&oe=6A5C8879";
+const plough =
+  "https://www.anh-academy.org/sites/default/files/IMG_5054.JPG";
+const cabbage =
+  "https://www.ccardesa.org/sites/default/files/news-images/20230216_141602%5B1%5D.jpg";
+const crisisImage =
+  "https://www.wvi.org/sites/default/files/styles/4_3_1440x1080/public/2024-05/Picture1D.webp?itok=x15tFp-X";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,9 +25,9 @@ export const Route = createFileRoute("/")({
         content:
           "Tap through the Mohloli app: Home, Credit, Cover and Flow — built on the M-Pesa rails Basotho already trust.",
       },
-      { property: "og:image", content: nkhono.url },
+      { property: "og:image", content: nkhono },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: nkhono.url },
+      { name: "twitter:image", content: nkhono },
     ],
   }),
   component: Index,
@@ -71,9 +77,9 @@ function Index() {
             <span className="italic text-primary">Mosotho</span> farmer.
           </h1>
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-            Tap through four screens of the Mohloli app — the same rails Basotho
-            already trust on M-Pesa, now scoring seasonal credit, climate cover,
-            savings and market access for the people who feed the kingdom.
+            Take a quick tour of the Mohloli app built on the trusted mobile
+            payment network Basotho already use, to help farmers access credit,
+            protection, savings, and markets.
           </p>
 
           <div className="mt-8 grid max-w-xl grid-cols-3 gap-4 text-sm">
@@ -89,12 +95,45 @@ function Index() {
         </div>
       </section>
 
-      {/* Testimonial + farmer photos */}
+      {/* Crisis section */}
       <section className="border-t border-border/60 bg-secondary/40">
+        <div className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="rounded-2xl border border-border/60 bg-card p-8 shadow-sm">
+            <p className="text-sm uppercase tracking-[0.18em] text-primary">
+              The crisis
+            </p>
+            <h2 className="mt-4 font-serif text-3xl leading-tight md:text-4xl">
+              Climate shocks can wipe out a season in days.
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+              One frost, storm, or dry spell can leave farmers without food,
+              cash flow, or the means to recover. The result is often deeper
+              debt and a harder road to the next planting season.
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+              Mohloli helps turn that uncertainty into practical support, so
+              farmers can protect their crops, access timely credit, and keep
+              moving forward.
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-2xl border border-border/60 bg-card">
+            <img
+              src={crisisImage}
+              alt="A dry maize field showing the impact of drought on a farming community."
+              className="h-[420px] w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonial + farmer photos */}
+      <section className="border-t border-border/60 bg-background">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[1fr_1.1fr]">
           <figure className="overflow-hidden rounded-2xl border border-border/60 bg-card">
             <img
-              src={nkhono.url}
+              src={nkhono}
               alt="'Nkhono Limpho, a Mosotho farmer, wearing the traditional mokorotlo hat and Seanamarena blanket, standing before the Maluti mountains."
               className="h-[420px] w-full object-cover"
               loading="lazy"
@@ -113,7 +152,7 @@ function Index() {
           <div className="grid gap-6">
             <div className="overflow-hidden rounded-2xl border border-border/60">
               <img
-                src={plough.url}
+                src={plough}
                 alt="Basotho farmers ploughing a field with oxen under the Maluti sky."
                 className="h-[240px] w-full object-cover"
                 loading="lazy"
@@ -121,8 +160,8 @@ function Index() {
             </div>
             <div className="overflow-hidden rounded-2xl border border-border/60">
               <img
-                src={cabbage.url}
-                alt="A cabbage field in the highlands of Lesotho, with a mountain rising behind."
+                src={cabbage}
+                alt="Green grass fields in Lesotho, showing vibrant farmland under open skies."
                 className="h-[240px] w-full object-cover"
                 loading="lazy"
               />
@@ -226,7 +265,7 @@ function HomeScreen() {
       <div className="flex items-center gap-3">
         <div
           className="h-11 w-11 rounded-full border border-primary/40 bg-cover bg-center"
-          style={{ backgroundImage: `url(${nkhono.url})` }}
+          style={{ backgroundImage: `url(${nkhono})` }}
         />
         <div>
           <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
